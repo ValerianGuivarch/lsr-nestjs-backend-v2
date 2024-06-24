@@ -8,8 +8,8 @@ import { DBClasse } from '../../../main/data/database/classes/DBClasse'
 import { DBClasseSkill } from '../../../main/data/database/classes_skills/DBClasseSkill'
 import { DBGuild } from '../../../main/data/database/guilds/DBGuild'
 import { DBGuildMember } from '../../../main/data/database/guilds_members/DBGuildMember'
-import { DBItem } from '../../../main/data/database/items/DBItem'
-import { InitDb1698398468721 } from '../../../main/data/database/migrations/1698398468721-init-db'
+import { PlayerEntity } from '../../../main/data/database/entities/player.entity'
+import { InitDb1719241324 } from '../../../main/data/database/migrations/1698398468721-init-db'
 import { InitRaces1698933061831 } from '../../../main/data/database/migrations/1698933061831-init-races'
 import { AddSettings1698993525000 } from '../../../main/data/database/migrations/1698993525000-add-settings'
 import { AddItems1702544225000 } from '../../../main/data/database/migrations/1702544225000-add-items'
@@ -54,10 +54,10 @@ export const getDataSourceAndContainer = async (): Promise<{
       DBSettingProvider,
       DBClasseSkill,
       DBGuildMember,
-      DBItem
+      PlayerEntity
     ],
     migrations: [
-      InitDb1698398468721,
+      InitDb1719241324,
       InitRaces1698933061831,
       AddSettings1698993525000,
       Skills1703068337272,

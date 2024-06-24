@@ -1,18 +1,16 @@
 import { AppModule } from './app.module'
 import config from './config/configuration'
 import { MigrationsProvider } from './data/database/migrations/MigrationsProvider'
-import fastifyCookie from '@fastify/cookie'
-import fastifyPassport from '@fastify/passport'
-import fastifySession from '@fastify/session'
 import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify'
+import { NestExpressApplication } from '@nestjs/platform-express'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
-    logger: ['error', 'warn', 'log']
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    snapshot: true
   })
+
   const migrationRunner = app.get(MigrationsProvider)
   try {
     await migrationRunner.runMigrations()
@@ -21,14 +19,6 @@ async function bootstrap() {
     console.error('Migrations failed:', error)
   }
   app.useGlobalPipes(new ValidationPipe({ transform: true, forbidUnknownValues: true }))
-
-  await app.register(fastifyCookie)
-  await app.register(fastifySession, {
-    secret: 'your-secret-has-to-be-changed-with-a-real-one', // Remplacez par un secret réel
-    cookie: { secure: false } // Mettez à true si vous êtes en HTTPS
-  })
-  await app.register(fastifyPassport.initialize())
-  await app.register(fastifyPassport.secureSession())
 
   const configuration = new DocumentBuilder()
     .setTitle('Starter swagger')
@@ -57,7 +47,7 @@ async function bootstrap() {
   await agent.mountOnNestJs(app).start()*/
 
   app.enableCors({
-    origin: [config().cors.forestAdmin, config().cors.backoffice],
+    origin: [config().cors.forestAdmin],
     credentials: true
   })
 

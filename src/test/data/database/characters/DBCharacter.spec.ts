@@ -6,7 +6,7 @@ import { DBClasse } from '../../../../main/data/database/classes/DBClasse'
 import { DBClasseSkill } from '../../../../main/data/database/classes_skills/DBClasseSkill'
 import { DBGuild } from '../../../../main/data/database/guilds/DBGuild'
 import { DBGuildMember } from '../../../../main/data/database/guilds_members/DBGuildMember'
-import { DBItem } from '../../../../main/data/database/items/DBItem'
+import { PlayerEntity } from '../../../../main/data/database/entities/player.entity'
 import { DBRace } from '../../../../main/data/database/races/DBRace'
 import { DBSkill } from '../../../../main/data/database/skills/DBSkill'
 import { DBSkillMagical } from '../../../../main/data/database/skills/DBSkillMagical'
@@ -65,7 +65,7 @@ describe('DBCharacterProvider', () => {
         { provide: getRepositoryToken(DBSkillPhysical), useValue: skillPhysicalRepository },
         { provide: getRepositoryToken(DBSkill), useValue: skillRepository },
         { provide: getRepositoryToken(DBClasseSkill), useValue: classeSkillRepository },
-        { provide: getRepositoryToken(DBItem), useValue: itemRepository }
+        { provide: getRepositoryToken(PlayerEntity), useValue: itemRepository }
       ]
     }).compile()
     provider = moduleRef.get(DBCharacterProvider)
@@ -80,7 +80,7 @@ describe('DBCharacterProvider', () => {
     await datasource.getRepository(DBCharacter).delete({})
     await datasource.getRepository(DBRace).delete({})
     await datasource.getRepository(DBAccount).delete({})
-    await datasource.getRepository(DBItem).delete({})
+    await datasource.getRepository(PlayerEntity).delete({})
   })
   afterAll(async () => {
     await datasource?.destroy()
